@@ -1,70 +1,89 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 namespace PushdownAutomata
 {
     public class PDA_Machine
     {
-        private List<PDA_State> m_InstructionList = new List<PDA_State>();
+        private List<PDA_State> _instructionList = new List<PDA_State>();
         
+        /// <summary>
+        /// Adds a state list in the PDA_Stack at the end (low priority)
+        /// </summary>
+        /// <param name="states"></param>
+        public void Add(List<PDA_State> states)
+        {
+            _instructionList.AddRange(states);
+
+            for (int i = 0; i < states.Count; i++)
+                states[i].OnFinished += NextState;
+        }
+
         /// <summary>
         /// Adds a state in the PDA_Stack at the end (low priority)
         /// </summary>
-        /// <param name="state"></param>
-        public void Push(List<PDA_State> states)
+        /// <param name="states"></param>
+        public void Add(PDA_State state)
         {
-            m_InstructionList.AddRange(states);
+            _instructionList.Add(state);
+            _instructionList[^1].OnFinished += NextState;
+        }
+
+        /// <summary>
+        /// Adds a state list in the PDA_Stack at the start (high priority)
+        /// </summary>
+        /// <param name="states"></param>
+        public void AddUrgent(List<PDA_State> states)
+        {
+            _instructionList.InsertRange(0, states);
+
+            for (int i = 0; i < states.Count; i++)
+                states[i].OnFinished += NextState;
         }
 
         /// <summary>
         /// Adds a state in the PDA_Stack at the start (high priority)
         /// </summary>
-        /// <param name="states"></param>
-        public void PushFirst(List<PDA_State> states)
+        /// <param name="state"></param>
+        public void AddUrgent(PDA_State state)
         {
-            m_InstructionList.InsertRange(0, states);
+            _instructionList.Insert(0, state);
+
+            state.OnFinished += NextState;
         }
 
-        public void PushFirst(PDA_State state)
+        public void Process()
         {
-            m_InstructionList.Insert(0, state);
-        }
-
-        public void Tick()
-        {
-            PDA_TaskStatus stateStatus = m_InstructionList[0].Tick();
-
-            if(stateStatus == PDA_TaskStatus.Finish)
-            {
-                m_InstructionList[0].Exit();
-                m_InstructionList.RemoveAt(0);
-                m_InstructionList[0].Enter();
-            }
-            else if(stateStatus == PDA_TaskStatus.Idle)
-            {
-                m_InstructionList[0].Enter();
-            }
+            if(_instructionList.Count > 0)
+                _instructionList[0].Process();
         }
 
         public PDA_State CurrentState()
         {
-            return m_InstructionList[0];
+            if( _instructionList.Count > 0 )
+                return _instructionList[0];
+            else
+                return null;
+        }
+
+        private void NextState()
+        {
+            if(_instructionList.Count > 0)
+                _instructionList.RemoveAt(0);
         }
 
         //Debug
         public int GetStatesAmount()
         {
-            return m_InstructionList.Count();
+            return _instructionList.Count();
         }
 
         public new string ToString()
         {
             string ret = "";
 
-            for(int i = 0;  i < m_InstructionList.Count; i++)
-                ret += m_InstructionList[i].ToString() + "\n";
+            for(int i = 0;  i < _instructionList.Count; i++)
+                ret += _instructionList[i].ToString() + "\n";
 
             return ret;
         }

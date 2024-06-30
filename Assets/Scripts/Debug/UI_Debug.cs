@@ -4,17 +4,18 @@ using UnityEngine;
 public class UI_Debug : MonoBehaviour
 {
     [SerializeField] LumberjackController NPC;
-    [SerializeField] private TMP_Text m_Text;
-    [SerializeField] private TMP_Text m_NumberOfStatesText;
+    [SerializeField] private TMP_Text _text;
+    [SerializeField] private TMP_Text _numberOfStatesText;
 
     private void Update()
     {
-        m_Text.text = NPC.m_StateMachine.CurrentState().ToString();
-        m_NumberOfStatesText.text = NPC.m_StateMachine.GetStatesAmount().ToString();
+        if(NPC._stateMachine.CurrentState() != null)
+            _text.text = NPC._stateMachine.CurrentState().ToString();
+        _numberOfStatesText.text = NPC._stateMachine.GetStatesAmount().ToString();
     }
 
     public void EmptyWater()
     {
-        NPC.Drink();
+        
     }
 }
