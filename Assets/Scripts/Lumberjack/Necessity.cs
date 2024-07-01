@@ -11,11 +11,12 @@ public class Necessity
     [SerializeField] public float CriticalLevelThreshold = 3f;
     
     public float Value { get; private set; } = 10f;
-    private bool _allowCritEvent = true;
+    private bool _allowCritEvent = false;
 
     public Necessity()
     {
         Value = StartingValue;
+        _allowCritEvent = true;
     }
 
     public void Decrease(float amount)
@@ -36,7 +37,7 @@ public class Necessity
         Value += amount;
         //Allow crit event
         if(Value > CriticalLevelThreshold)
-            _allowCritEvent = true;
+            _allowCritEvent = false;
         //Clamp value
         Value = Mathf.Clamp(Value, 0f, MaxValue);
     }

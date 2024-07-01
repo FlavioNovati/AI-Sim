@@ -3,7 +3,7 @@ using PushdownAutomata;
 using System.Collections.Generic;
 using UnityEngine.AI;
 
-public class LumberjackController : MonoBehaviour
+public class LumberjackController : MonoBehaviour, IEntity
 {
     [SerializeField] private LumberjackData _settings = null;
 
@@ -14,22 +14,30 @@ public class LumberjackController : MonoBehaviour
     private IPickable _pickedObject = null;
     private ITarget _target = null;
 
-    private Necessity _hungerNeeds;
-    private Necessity _thirtsNeeds;
-
     //TODO: REMAKE PRIVATE
     public PDA_Machine _stateMachine = new PDA_Machine();
     private NavMeshAgent _agent = null;
+
+    public Necessity Thirst { get; set; }
+    public Necessity Hunger { get; set; }
+
 
     private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
 
-        _hungerNeeds = _settings.HungerNeeds;
-        _thirtsNeeds = _settings.ThirstNeeds;
+        Thirst = new Necessity();
+        Thirst.MaxValue = _settings.ThirstNeeds.MaxValue;
+        Thirst.StartingValue = _settings.ThirstNeeds.StartingValue;
+        Thirst.CriticalLevelThreshold = _settings.ThirstNeeds.CriticalLevelThreshold;
+        
+        Hunger = new Necessity();
+        Hunger.MaxValue = _settings.HungerNeeds.MaxValue;
+        Hunger.StartingValue = _settings.HungerNeeds.StartingValue;
+        Hunger.CriticalLevelThreshold = _settings.HungerNeeds.CriticalLevelThreshold;
 
-        _hungerNeeds.OnCritical += HungerCrit;
-        _thirtsNeeds.OnCritical += ThirstCrit;
+        Hunger.OnCritical += HungerCrit;
+        Thirst.OnCritical += ThirstCrit;
     }
 
     private void Start()
@@ -51,9 +59,9 @@ public class LumberjackController : MonoBehaviour
         List<PDA_State> harvestTreeRoutine = new List<PDA_State>();
 
         PDA_State_MoveToTarget moveTowardsTree = new PDA_State_MoveToTarget("Move towards Tree", _agent, _target, 0.5f);
-        PDA_State_AttackTarget cutTree = new PDA_State_AttackTarget("Attack Tree", _target, 2f, 3f);
+        PDA_State_AttackTarget cutTree = new PDA_State_AttackTarget("Attack Tree", _target, 2f, 3f, this, 30f, 30f);
         //Once the tree is cutted pick the drop
-        cutTree.OnTargetDropped += PickUpDrop;
+        cutTree.OnTargetDropped += PickUp;
 
         harvestTreeRoutine.Add(moveTowardsTree);
         harvestTreeRoutine.Add(cutTree);
@@ -64,13 +72,13 @@ public class LumberjackController : MonoBehaviour
     /// <summary>
     /// Reach IPickable and pick it up
     /// </summary>
-    /// <param name="dropToPickUp"></param>
-    private void PickUpDrop(IPickable dropToPickUp)
+    /// <param name="objectToPickUp"></param>
+    private void PickUp(IPickable objectToPickUp)
     {
         List<PDA_State> pickUpDropRoutine = new List<PDA_State>();
 
-        PDA_State_MoveToTarget moveTowardsDrop = new PDA_State_MoveToTarget("Move towards target", _agent, ref dropToPickUp, 0.15f);
-        PDA_State_PickUpObject pickUpObject = new PDA_State_PickUpObject("Pick up target drop", ref dropToPickUp);
+        PDA_State_MoveToTarget moveTowardsDrop = new PDA_State_MoveToTarget("Move towards target", _agent, ref objectToPickUp, 0.15f);
+        PDA_State_PickUpObject pickUpObject = new PDA_State_PickUpObject("Pick up target drop", ref objectToPickUp);
         pickUpObject.OnPickUp += PickUpObject;
 
         pickUpDropRoutine.Add(moveTowardsDrop);
@@ -88,7 +96,7 @@ public class LumberjackController : MonoBehaviour
         _pickedObject = pickable;
 
         //if is a trunk -> save it in the stash
-        if (_pickedObject.Transform.gameObject.TryGetComponent<Trunk>(out Trunk trunk))
+        if (_pickedObject.Transform.gameObject.TryGetComponent<Trunk>(out _))
             StoreTrunk(pickable, WoodStash);
     }
 

@@ -13,11 +13,19 @@ namespace PushdownAutomata
         private ITarget _target;
         private IDamageable _damageable;
 
-        public PDA_State_AttackTarget(string name, ITarget target, float damage, float attackDelay) : base(name)
+        private IEntity _entity;
+        private float _hungerConsumption;
+        private float _thirstConsumption;
+
+        //TODO: Refactor
+        public PDA_State_AttackTarget(string name, ITarget target, float damage, float attackDelay, IEntity entity, float hungerConsumption, float thirstConsumption) : base(name)
         {
             _damage = damage;
             _attackDelay = attackDelay;
             _target = target;
+            _entity = entity;
+            _hungerConsumption = hungerConsumption;
+            _thirstConsumption = thirstConsumption;
         }
 
         protected override void Enter()
@@ -48,6 +56,9 @@ namespace PushdownAutomata
             {
                 _damageable.TakeDamage(_damage);
                 _lastAttackTime = Time.time;
+
+                _entity.Hunger.Decrease(_hungerConsumption);
+                _entity.Thirst.Decrease(_thirstConsumption);
             }
         }
 
