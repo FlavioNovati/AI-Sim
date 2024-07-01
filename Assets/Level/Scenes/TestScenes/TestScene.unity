@@ -657,8 +657,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2c362977d1a3e84f8b3e293c246a468, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dayDuration: 30
-  _nightDuration: 15
+  _dayDuration: 55
+  _nightDuration: 30
   _time: 0
 --- !u!1 &1171651019
 GameObject:

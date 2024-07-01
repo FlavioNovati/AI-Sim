@@ -28,8 +28,8 @@ public class LumberjackController : MonoBehaviour
         _hungerNeeds = _settings.HungerNeeds;
         _thirtsNeeds = _settings.ThirstNeeds;
 
-        _hungerNeeds.OnCrit += HungerCrit;
-        _thirtsNeeds.OnCrit += ThirstCrit;
+        _hungerNeeds.OnCritical += HungerCrit;
+        _thirtsNeeds.OnCritical += ThirstCrit;
     }
 
     private void Start()

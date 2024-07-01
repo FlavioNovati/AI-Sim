@@ -4,11 +4,11 @@ using UnityEngine;
 public class Necessity
 {
     public delegate void CritLevel();
-    public event CritLevel OnCrit;
+    public event CritLevel OnCritical;
 
     [SerializeField] public float MaxValue = 20f;
     [SerializeField] public float StartingValue = 15f;
-    [SerializeField] public float CritLevelThreshold = 3f;
+    [SerializeField] public float CriticalLevelThreshold = 3f;
     
     public float Value { get; private set; } = 10f;
     private bool _allowCritEvent = true;
@@ -23,10 +23,10 @@ public class Necessity
         Value -= amount;
         //Clamp hunger
         Value = Mathf.Clamp(Value, 0f, MaxValue);
-        //Hunger has reached crit level
-        if (Value <= CritLevelThreshold && _allowCritEvent)
+        //Value has reached crit level
+        if (Value <= CriticalLevelThreshold && _allowCritEvent)
         {
-            OnCrit?.Invoke();
+            OnCritical?.Invoke();
             _allowCritEvent = false;
         }
     }
@@ -35,9 +35,9 @@ public class Necessity
     {
         Value += amount;
         //Allow crit event
-        if(Value > CritLevelThreshold)
+        if(Value > CriticalLevelThreshold)
             _allowCritEvent = true;
-        //Clamp Hunger
+        //Clamp value
         Value = Mathf.Clamp(Value, 0f, MaxValue);
     }
 }
