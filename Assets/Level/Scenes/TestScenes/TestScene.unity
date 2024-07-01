@@ -379,6 +379,39 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 387407812}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &463995222
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 463995223}
+  m_Layer: 0
+  m_Name: -- MANAGERS --
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &463995223
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463995222}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1827583184}
+  - {fileID: 1106783435}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &492232067
 GameObject:
   m_ObjectHideFlags: 0
@@ -577,8 +610,56 @@ Transform:
   - {fileID: 1171651023}
   - {fileID: 27706819}
   - {fileID: 387407813}
+  - {fileID: 1693534470}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1106783434
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1106783435}
+  - component: {fileID: 1106783436}
+  m_Layer: 0
+  m_Name: DayManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1106783435
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1106783434}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 463995223}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1106783436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1106783434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2c362977d1a3e84f8b3e293c246a468, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dayDuration: 30
+  _nightDuration: 15
+  _time: 0
 --- !u!1 &1171651019
 GameObject:
   m_ObjectHideFlags: 0
@@ -1160,18 +1241,80 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
---- !u!114 &1697102963 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7271703509598512697, guid: 8b975ec0ee53e2e4d96f24d663d5127e,
+--- !u!1001 &1693534469
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 754238520}
+    m_Modifications:
+    - target: {fileID: 1318963971127410376, guid: 558a3a0d0a2ad9346886c41308a411c5,
+        type: 3}
+      propertyPath: m_Name
+      value: LumberjackHouse_Prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 7603541446085867175, guid: 558a3a0d0a2ad9346886c41308a411c5,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10.23
+      objectReference: {fileID: 0}
+    - target: {fileID: 7603541446085867175, guid: 558a3a0d0a2ad9346886c41308a411c5,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7603541446085867175, guid: 558a3a0d0a2ad9346886c41308a411c5,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -18.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7603541446085867175, guid: 558a3a0d0a2ad9346886c41308a411c5,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7603541446085867175, guid: 558a3a0d0a2ad9346886c41308a411c5,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7603541446085867175, guid: 558a3a0d0a2ad9346886c41308a411c5,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7603541446085867175, guid: 558a3a0d0a2ad9346886c41308a411c5,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7603541446085867175, guid: 558a3a0d0a2ad9346886c41308a411c5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7603541446085867175, guid: 558a3a0d0a2ad9346886c41308a411c5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7603541446085867175, guid: 558a3a0d0a2ad9346886c41308a411c5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 558a3a0d0a2ad9346886c41308a411c5, type: 3}
+--- !u!4 &1693534470 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7603541446085867175, guid: 558a3a0d0a2ad9346886c41308a411c5,
     type: 3}
-  m_PrefabInstance: {fileID: 387407812}
+  m_PrefabInstance: {fileID: 1693534469}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56c2e952cefb2cc488b432fa035a5df8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1799028814
 GameObject:
   m_ObjectHideFlags: 0
@@ -1308,6 +1451,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1799028814}
   m_CullTransparentMesh: 1
+--- !u!1 &1827583182
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1827583184}
+  - component: {fileID: 1827583183}
+  m_Layer: 0
+  m_Name: JumberjackManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1827583183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1827583182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ebf495b12b140d4c886c9f26a128516, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1827583184
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1827583182}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 463995223}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1978095634
 GameObject:
   m_ObjectHideFlags: 0
@@ -1472,16 +1659,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Lumberjack
       objectReference: {fileID: 0}
-    - target: {fileID: 4988745065743917774, guid: 1545b12346201f14aaf79ead46cf6cb8,
-        type: 3}
-      propertyPath: _woodStash
-      value: 
-      objectReference: {fileID: 1697102963}
-    - target: {fileID: 4988745065743917774, guid: 1545b12346201f14aaf79ead46cf6cb8,
-        type: 3}
-      propertyPath: _forestToCut
-      value: 
-      objectReference: {fileID: 27706820}
     - target: {fileID: 7543352691761735097, guid: 1545b12346201f14aaf79ead46cf6cb8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1543,6 +1720,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 1663956164}
   - {fileID: 1265417826}
+  - {fileID: 463995223}
   - {fileID: 754238520}
   - {fileID: 684879668}
   - {fileID: 1442542215}

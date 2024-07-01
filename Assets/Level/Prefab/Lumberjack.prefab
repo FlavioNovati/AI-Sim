@@ -46,8 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6331deebd2c6c24384c00ef41e2e58e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _forestToCut: {fileID: 0}
-  _woodStash: {fileID: 0}
+  _settings: {fileID: 11400000, guid: de67972815f9fef478f2d8bc8cdf65ab, type: 2}
+  ForestToCut: {fileID: 0}
 --- !u!195 &4350843906577251171
 NavMeshAgent:
   m_ObjectHideFlags: 0

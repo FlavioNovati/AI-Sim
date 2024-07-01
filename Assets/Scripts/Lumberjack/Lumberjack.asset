@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63c4d5c905b90c9499831b15ae5de5ef, type: 3}
+  m_Name: Lumberjack
+  m_EditorClassIdentifier: 
+  HungerNeeds:
+    MaxValue: 20
+    StartingValue: 15
+    CritLevelThreshold: 3
+  ThirstNeeds:
+    MaxValue: 20
+    StartingValue: 15
+    CritLevelThreshold: 3
+  Damage: 2
+  AttackDelay: 1.5
+  TreeStoppingDistance: 1
+  DropStoppingDistance: 0.5
+  StashStoppingDistance: 3

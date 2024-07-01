@@ -1,8 +1,6 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class Forest : MonoBehaviour
 {
@@ -37,7 +35,7 @@ public class Forest : MonoBehaviour
     public void Regrow() { }
 
     /// <summary>
-    /// Get a random tree that is active in hierarchy
+    /// Get a random tree and remove it from allowed trees
     /// </summary>
     /// <returns></returns>
     public Tree GetTree()

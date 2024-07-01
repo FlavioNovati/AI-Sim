@@ -16,6 +16,7 @@ namespace PushdownAutomata
 
         //State Parameters
         protected StateStage _stage = StateStage.ENTER;
+        //TODO: Clean
         protected string _name;
         
         public PDA_State(string name) 

@@ -9,8 +9,9 @@ public class Trunk : MonoBehaviour, IPickable
         gameObject.SetActive(false);
     }
 
-    public void PutDown()
+    public void PutDown(Vector3 dropPosition)
     {
-        
+        transform.position = dropPosition;
+        gameObject.SetActive(true);
     }
 }

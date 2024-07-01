@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace PushdownAutomata
 {
     public class PDA_State_StoreToStash : PDA_State
