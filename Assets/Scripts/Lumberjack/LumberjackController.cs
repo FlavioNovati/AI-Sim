@@ -12,7 +12,9 @@ public class LumberjackController : MonoBehaviour, IEntity
 
     [HideInInspector] public Forest ForestToCut = null;
     [HideInInspector] public IStash WoodStash = null;
-    [HideInInspector] public ITarget RestTarget = null;
+    [HideInInspector] public IHome Home = null;
+    [HideInInspector] public FoodSpawner FoodSource = null;
+    [HideInInspector] public WaterSpawner WaterSource = null;
 
     private IPickable _pickedObject = null;
     private ITarget _target = null;
@@ -74,32 +76,36 @@ public class LumberjackController : MonoBehaviour, IEntity
     /// Reach IPickable and pick it up
     /// </summary>
     /// <param name="objectToPickUp"></param>
-    private void PickUp(IPickable objectToPickUp)
+    private void PickUp(IPickable objectToPickUp, bool urgent)
     {
         PDA_State_MoveToTarget moveTowardsDrop = new PDA_State_MoveToTarget("Move towards pickable", _agent, objectToPickUp, _settings.DropStoppingDistance, this, _settings.WalkingConsumption);
         PDA_State_PickUpObject pickUpObject = new PDA_State_PickUpObject("Pick up pickable", ref objectToPickUp);
         //When object is picked up execute PickUpObject
-        pickUpObject.OnPickUp += PickUpObject;
+        pickUpObject.OnPickUp += AnalizePickable;
 
         //Setup routine
-        List<PDA_State> pickUpDropRoutine = new List<PDA_State>{ moveTowardsDrop, pickUpObject };
+        List<PDA_State> pickUpDropRoutine = new List<PDA_State> { moveTowardsDrop, pickUpObject };
         //Apply routine to state machine
-        StateMachine.Add(pickUpDropRoutine);
+        if(urgent)
+            StateMachine.AddUrgent(pickUpDropRoutine);
+        else
+            StateMachine.Add(pickUpDropRoutine);
     }
 
     /// <summary>
     /// Store IPickable inside a local variable, if Trunk stash it, if consumable cosume it
     /// </summary>
     /// <param name="pickable"></param>
-    private void PickUpObject(IPickable pickable)
+    private void AnalizePickable(IPickable pickable)
     {
         _pickedObject = pickable;
 
         //if is a trunk -> save it in the stash
         if (_pickedObject.Transform.gameObject.TryGetComponent<Trunk>(out _))
             StoreTrunk(pickable, WoodStash);
-
-        //TODO: Consume
+        //if eatable -> eat it
+        if (_pickedObject.Transform.gameObject.TryGetComponent<IEatable>(out IEatable eatable))
+            eatable.FeedMe(this);
     }
 
     /// <summary>
@@ -109,7 +115,6 @@ public class LumberjackController : MonoBehaviour, IEntity
     /// <param name="stash"></param>
     private void StoreTrunk(IPickable pickable, IStash stash)
     {
-
         PDA_State_MoveToTarget moveTowardsStash = new PDA_State_MoveToTarget("Move to wood stash", _agent, stash, _settings.StashStoppingDistance, this, _settings.WalkingConsumption);
         PDA_State_StoreToStash storeToStash = new PDA_State_StoreToStash("Store trunk to stash", pickable, stash);
         storeToStash.OnFinished += RecycleWorkRoutine;
@@ -131,7 +136,7 @@ public class LumberjackController : MonoBehaviour, IEntity
 
     private void Rest()
     {
-        PDA_State_MoveToTarget moveTowardsHome = new PDA_State_MoveToTarget("Move to home", _agent, RestTarget, _settings.HouseStoppingDistance, this, _settings.WalkingConsumption);
+        PDA_State_MoveToTarget moveTowardsHome = new PDA_State_MoveToTarget("Move to home", _agent, Home, _settings.HouseStoppingDistance, this, _settings.WalkingConsumption);
         PDA_State_Idle waitUntillDay = new PDA_State_Idle("Wait day time", ref DayManager.OnDayStarted);
 
         //Setup routine
@@ -142,12 +147,14 @@ public class LumberjackController : MonoBehaviour, IEntity
 
     private void HungerCrit()
     {
-
+        IEatable foodTarget = FoodSource.GetFood();
+        PickUp(foodTarget, true);
     }
 
     private void ThirstCrit()
     {
-
+        IEatable waterTarget = WaterSource.GetWater();
+        PickUp(waterTarget, true);
     }
 
     private void OnEnable()

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class Food : MonoBehaviour, IEatable
-{
+{ 
     [SerializeField] private float _feedAmount;
     public Transform Transform => transform;
 

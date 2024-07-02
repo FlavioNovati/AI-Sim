@@ -4,15 +4,16 @@ namespace PushdownAutomata
 {
     public class PDA_State_AttackTarget : PDA_State
     {
-        public delegate void TargetDropped(IPickable pickableDrop);
+        public delegate void TargetDropped(IPickable pickableDrop, bool urgent);
         public event TargetDropped OnTargetDropped;
 
+        //Attack Variables
         private float _attackDelay;
         private float _lastAttackTime;
         private float _damage;
         private ITarget _target;
         private IDamageable _damageable;
-
+        //Consumption variables
         private IEntity _entity;
         private float _hungerConsumption;
         private float _thirstConsumption;
@@ -76,7 +77,7 @@ namespace PushdownAutomata
 
         private void Drop(IPickable pickableDrop)
         {
-            OnTargetDropped?.Invoke(pickableDrop);
+            OnTargetDropped?.Invoke(pickableDrop, false);
         }
     }
 }

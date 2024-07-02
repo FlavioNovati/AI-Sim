@@ -35,6 +35,8 @@ public class UI_Manager : MonoBehaviour
         _hungerVisualizer.Update();
         _thirstVisualizer.Update();
 
+        UpdateUIStates();
+
         float clockRotation = Mathf.Lerp(_startingRotation, _finalRotation, DayManager.Instance.DayProgress);
         _clockImage.rectTransform.eulerAngles = new Vector3(0f, 0f, clockRotation);
     }
@@ -48,7 +50,5 @@ public class UI_Manager : MonoBehaviour
             statesString += states[i].ToString()+"\n";
         //Update text
         _statesTextField.text = statesString;
-        //Connect event
-        _lumberjack.StateMachine.CurrentState().OnFinished += UpdateUIStates;
     }
 }

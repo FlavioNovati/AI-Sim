@@ -3,6 +3,7 @@ using UnityEngine;
 public class Water : MonoBehaviour, IEatable
 {
     [SerializeField] private float _feedAmount;
+
     public Transform Transform => transform;
 
     public float FeedAmount { get; set; }

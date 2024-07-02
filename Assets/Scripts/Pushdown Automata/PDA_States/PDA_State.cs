@@ -1,4 +1,5 @@
 using System;
+using UnityEditor;
 
 namespace PushdownAutomata
 {
@@ -46,6 +47,11 @@ namespace PushdownAutomata
             OnFinished -= OnFinished;
         }
         
+        public void Pause()
+        {
+            _stage = StateStage.ENTER;
+        }
+
         public new string ToString()
         {
             return _name;

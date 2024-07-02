@@ -294,9 +294,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1af961a5007b6b4184af3c2f97f9023, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startingObjectCount: 15
+  _startingObjectCount: 3
   _spawnAreaSize: 4
-  _maxSpawnCount: 15
+  _maxSpawnCount: 3
   _minNew: 3
   _maxNew: 7
   _waterToSpawn: {fileID: -5147537679266146464, guid: 667243946e2a3dd4a9cc2de5b5aba9e5,
@@ -379,9 +379,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90d6e15e6667a9b47a4fc04306f430a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startingObjectCount: 15
+  _startingObjectCount: 3
   _spawnAreaSize: 6.5
-  _maxSpawnCount: 15
+  _maxSpawnCount: 3
   _minNew: 3
   _maxNew: 7
   _foodToSpawn: {fileID: 4985888115418275424, guid: d277f9cf139c73d41ba1b0f667a66b79,
@@ -500,8 +500,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2c362977d1a3e84f8b3e293c246a468, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dayDuration: 55
-  _nightDuration: 30
+  _dayDuration: 60
+  _nightDuration: 35
 --- !u!1 &1171651019
 GameObject:
   m_ObjectHideFlags: 0

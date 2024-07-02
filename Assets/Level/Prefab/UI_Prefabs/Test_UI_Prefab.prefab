@@ -184,7 +184,7 @@ GameObject:
   - component: {fileID: 7405432388692064899}
   - component: {fileID: 6924355971868546027}
   m_Layer: 0
-  m_Name: Fill
+  m_Name: ThirstFillBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -259,7 +259,7 @@ GameObject:
   - component: {fileID: 4443037446165321375}
   - component: {fileID: 4753581943068884810}
   m_Layer: 0
-  m_Name: Fill
+  m_Name: HungerFillBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1032,8 +1032,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3230028618652787962}
-  - {fileID: 7219744950954883050}
   - {fileID: 6899290921183221920}
+  - {fileID: 7219744950954883050}
   - {fileID: 7006341807820210854}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1122,8 +1122,8 @@ MonoBehaviour:
   _clockImage: {fileID: 5470054859593697581}
   _startingRotation: 0
   _finalRotation: 356
-  _hungerBar: {fileID: 6924355971868546027}
-  _thirstBar: {fileID: 4753581943068884810}
+  _hungerBar: {fileID: 4753581943068884810}
+  _thirstBar: {fileID: 6924355971868546027}
   _hungerCriticalColor: {r: 0.7254902, g: 0.3166368, b: 0.25490198, a: 1}
   _thirstCriticalColor: {r: 0.5412715, g: 0.23529409, b: 0.62352943, a: 1}
 --- !u!1 &7993861393087571707

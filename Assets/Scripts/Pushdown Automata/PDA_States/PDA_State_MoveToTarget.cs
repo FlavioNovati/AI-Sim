@@ -42,7 +42,6 @@ namespace PushdownAutomata
                 return;
             }
             _agent.stoppingDistance = _stoppingDistance;
-            //Play walking Animation
         }
 
         protected override void Update()

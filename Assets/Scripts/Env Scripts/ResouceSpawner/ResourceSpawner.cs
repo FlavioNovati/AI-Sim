@@ -42,7 +42,7 @@ public class ResourceSpawner : MonoBehaviour
         int newAmount = UnityEngine.Random.Range(_minNew, _maxNew);
         int objectRespawned = 0;
 
-        //Pool old Tree
+        //Pool object
         for (int i = 0; i < newAmount; i++)
         {
             if (!_spawnList[i].gameObject.activeInHierarchy)
@@ -57,6 +57,7 @@ public class ResourceSpawner : MonoBehaviour
                 objectRespawned++;
             }
         }
+
         //Enough objects are in map
         if (objectRespawned == newAmount)
             return;
