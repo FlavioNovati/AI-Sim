@@ -852,6 +852,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: UI_FullRect
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 448
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d0aacc2f9d8649e45997c051b803b67a
+      internalID: -451127702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -893,6 +914,7 @@ TextureImporter:
       Spritesheet_35: 846033419
       Tree_0: -1228531824
       Tree_1: 1732021934
+      UI_FullRect: -451127702
       Walk_0: 307753217
       Walk_1: 1536324469
       Walk_2: 516870209

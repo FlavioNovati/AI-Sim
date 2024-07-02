@@ -15,13 +15,20 @@ MonoBehaviour:
   HungerNeeds:
     MaxValue: 20
     StartingValue: 15
-    CritLevelThreshold: 3
+    CriticalLevelThreshold: 3
   ThirstNeeds:
     MaxValue: 20
     StartingValue: 15
-    CritLevelThreshold: 3
+    CriticalLevelThreshold: 3
+  AttackingConsumption:
+    HungerConsumption: 0.8
+    ThirstConsumption: 0.5
+  WalkingConsumption:
+    HungerConsumption: 0.1
+    ThirstConsumption: 0.15
   Damage: 2
   AttackDelay: 1.5
-  TreeStoppingDistance: 1
-  DropStoppingDistance: 0.5
+  TreeStoppingDistance: 1.1
+  DropStoppingDistance: 0.25
   StashStoppingDistance: 3
+  HouseStoppingDistance: 0.25

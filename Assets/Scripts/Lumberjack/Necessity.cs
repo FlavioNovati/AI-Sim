@@ -41,4 +41,9 @@ public class Necessity
         //Clamp value
         Value = Mathf.Clamp(Value, 0f, MaxValue);
     }
+
+    public bool IsCritical()
+    {
+        return Value < CriticalLevelThreshold;
+    }
 }

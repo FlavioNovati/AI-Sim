@@ -17,15 +17,23 @@ namespace PushdownAutomata
         private float _hungerConsumption;
         private float _thirstConsumption;
 
-        //TODO: Refactor
-        public PDA_State_AttackTarget(string name, ITarget target, float damage, float attackDelay, IEntity entity, float hungerConsumption, float thirstConsumption) : base(name)
+        /// <summary>
+        /// Attack an ITarget and consume IEntity hunger and thirst
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="target"></param>
+        /// <param name="damage"></param>
+        /// <param name="attackDelay"></param>
+        /// <param name="entity"></param>
+        /// <param name="consumptionPerTick"></param>
+        public PDA_State_AttackTarget(string name, ITarget target, float damage, float attackDelay, IEntity entity, TaskConsumption consumptionPerTick) : base(name)
         {
             _damage = damage;
             _attackDelay = attackDelay;
             _target = target;
             _entity = entity;
-            _hungerConsumption = hungerConsumption;
-            _thirstConsumption = thirstConsumption;
+            _hungerConsumption = consumptionPerTick.HungerConsumption;
+            _thirstConsumption = consumptionPerTick.ThirstConsumption;
         }
 
         protected override void Enter()
@@ -45,9 +53,7 @@ namespace PushdownAutomata
             }
 
             if(_target.Transform.TryGetComponent<IDroppable>(out IDroppable drop))
-            {
                 drop.OnDrop += Drop;
-            }
         }
 
         protected override void Update()

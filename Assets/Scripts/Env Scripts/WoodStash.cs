@@ -6,7 +6,7 @@ public class WoodStash : MonoBehaviour, IStash
 {
     private List<IPickable> _storedObject = new List<IPickable>();
 
-    //TODO: REMOVE DEBUG
+    //Text For Debugging
     [SerializeField] private TMP_Text m_Text;
 
     public Transform Transform => transform;

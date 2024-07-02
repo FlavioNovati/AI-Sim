@@ -71,11 +71,10 @@ namespace PushdownAutomata
             if(_instructionList.Count > 0)
                 _instructionList.RemoveAt(0);
         }
-
-        //Debug
-        public int GetStatesAmount()
+        
+        public List<PDA_State> GetStates()
         {
-            return _instructionList.Count();
+            return _instructionList;
         }
 
         public new string ToString()

@@ -46,7 +46,7 @@ namespace PushdownAutomata
             OnFinished -= OnFinished;
         }
         
-        protected virtual new string ToString()
+        public new string ToString()
         {
             return _name;
         }

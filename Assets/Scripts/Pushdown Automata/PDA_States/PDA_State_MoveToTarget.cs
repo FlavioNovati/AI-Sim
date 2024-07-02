@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.AI;
 
 namespace PushdownAutomata
@@ -7,26 +8,29 @@ namespace PushdownAutomata
         private NavMeshAgent _agent;
         private ITarget _target;
         private float _stoppingDistance;
-        
-        public PDA_State_MoveToTarget(string name, NavMeshAgent agent, ITarget target, float stoppingDistance) : base(name)
-        {
-            _agent = agent;
-            _stoppingDistance = stoppingDistance;
-            _target = target;
-        }
 
-        public PDA_State_MoveToTarget(string name, NavMeshAgent agent, ref IPickable target, float stoppingDistance) : base(name)
-        {
-            _agent = agent;
-            _stoppingDistance = stoppingDistance;
-            _target = target;
-        }
+        private IEntity _entity;
+        private float _hungerConsumption;
+        private float _thirstConsumption;
 
-        public PDA_State_MoveToTarget(string name, NavMeshAgent agent, ref IStash target, float stoppingDistance) : base(name)
+        /// <summary>
+        /// Reach a ITaregt consuming a determinated amount of necessity per tick
+        /// </summary>
+        /// <param name="name">Name of PDA_State</param>
+        /// <param name="agent">Nav Mesh Agent to move</param>
+        /// <param name="target">ITarget to reach</param>
+        /// <param name="stoppingDistance">Stopping distance from target</param>
+        /// <param name="entity">IEntity where to decrease necessity stats</param>
+        /// <param name="consumptionPerTick">Consumption of task per tick</param>
+        public PDA_State_MoveToTarget(string name, NavMeshAgent agent, ITarget target, float stoppingDistance, IEntity entity, TaskConsumption consumptionPerTick) : base(name)
         {
             _agent = agent;
             _stoppingDistance = stoppingDistance;
             _target = target;
+
+            _entity = entity;
+            _hungerConsumption = consumptionPerTick.HungerConsumption;
+            _thirstConsumption = consumptionPerTick.ThirstConsumption;
         }
 
         protected override void Enter()
@@ -49,6 +53,9 @@ namespace PushdownAutomata
 
             if (dist <= _agent.stoppingDistance)
                 base._stage = StateStage.EXIT;
+
+            _entity.Hunger.Decrease(_hungerConsumption * Time.deltaTime);
+            _entity.Thirst.Decrease(_thirstConsumption * Time.deltaTime);
         }
 
         protected override void Exit()
