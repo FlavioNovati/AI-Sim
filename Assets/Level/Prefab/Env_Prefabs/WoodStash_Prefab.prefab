@@ -284,7 +284,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56c2e952cefb2cc488b432fa035a5df8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Text: {fileID: 3129969858321093225}
+  _stoppingDistance: 3
+  _text: {fileID: 3129969858321093225}
 --- !u!1 &5804741105272173335
 GameObject:
   m_ObjectHideFlags: 0

@@ -43,7 +43,7 @@ public class ResourceSpawner : MonoBehaviour
         int objectRespawned = 0;
 
         //Pool object
-        for (int i = 0; i < newAmount; i++)
+        for (int i = 0; i < _spawnList.Count; i++)
         {
             if (!_spawnList[i].gameObject.activeInHierarchy)
             {
@@ -55,13 +55,12 @@ public class ResourceSpawner : MonoBehaviour
                 _allowedObjectList.Add(_spawnList[i]);
                 //increase object respawned
                 objectRespawned++;
+                //if enought objects are spawned -> return
+                if (objectRespawned >= newAmount)
+                    return;
             }
         }
-
-        //Enough objects are in map
-        if (objectRespawned == newAmount)
-            return;
-
+        
         //Intanciate new object
         for (int i = 0; i < newAmount; i++)
         {
@@ -71,7 +70,10 @@ public class ResourceSpawner : MonoBehaviour
             _allowedObjectList.Add(_spawnList[^1]);
             if (_spawnList.Count >= _maxSpawnCount)
                 return;
+
             objectRespawned++;
+            if (objectRespawned >= newAmount)
+                return;
         }
     }
 

@@ -3,20 +3,21 @@ using UnityEngine;
 public class Food : MonoBehaviour, IEatable
 { 
     [SerializeField] private float _feedAmount;
+    [SerializeField] private float _stoppingDistance = 0.2f;
+
+    //ITarget
     public Transform Transform => transform;
+    public float StoppingDistance => _stoppingDistance;
 
-    public float FeedAmount { get; set; }
-
-    private void Awake()
-    {
-        FeedAmount = _feedAmount;
-    }
-
+    //IEatable
+    public float FeedAmount => _feedAmount;
     public void FeedMe(IEntity entityToFeed)
     {
         entityToFeed.Hunger.Increase(FeedAmount);
     }
 
+    //IPickable
+    public string PickableName => "food";
     public void PickUp()
     {
         gameObject.SetActive(false);

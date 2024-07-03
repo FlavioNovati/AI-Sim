@@ -2,14 +2,18 @@ using UnityEngine;
 
 public class Tree : MonoBehaviour, ITree, IDamageable, IDroppable
 {
-    public event IDamageable.Death OnDeath;
-    public event IDroppable.Drop OnDrop;
-
-    public Transform Transform => transform;
+    [SerializeField] private float _healtPoints = 5f;
+    [SerializeField] private float _stoppingDistance = 0.25f;
     [SerializeField] private Trunk _objectToDrop;
 
+    //IDamageable
     public float HP { get; set; }
-    [SerializeField] private float _healtPoints = 5f;
+    public event IDamageable.Death OnDeath;
+    //IDroppable
+    public event IDroppable.Drop OnDrop;
+    //ITarget
+    public Transform Transform => transform;
+    public float StoppingDistance => _stoppingDistance;
 
     private void Awake()
     {
@@ -34,11 +38,15 @@ public class Tree : MonoBehaviour, ITree, IDamageable, IDroppable
     //TODO: Replace With Pooling
     private void SpawnTrunk()
     {
+        //Get random positon near tree
         Vector3 pos = transform.position;
         Vector2 randomPos = UnityEngine.Random.insideUnitCircle * 1f;
         pos.x += randomPos.x;
         pos.z += randomPos.y;
-        _objectToDrop = Instantiate(_objectToDrop, pos, Quaternion.identity);
-        OnDrop?.Invoke(_objectToDrop);
+        //Instanciate trunk
+        Trunk temp = Instantiate(_objectToDrop, pos, Quaternion.identity);
+        temp.gameObject.SetActive(true);
+        //Invoke drop event
+        OnDrop?.Invoke(temp);
     }
 }

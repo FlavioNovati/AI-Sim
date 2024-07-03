@@ -35,7 +35,9 @@ namespace PushdownAutomata
         /// <param name="states"></param>
         public void AddUrgent(List<PDA_State> states)
         {
+            //Pause current instruction
             _instructionList[0].Pause();
+            //add new states
             _instructionList.InsertRange(0, states);
 
             for (int i = 0; i < states.Count; i++)
@@ -48,6 +50,9 @@ namespace PushdownAutomata
         /// <param name="state"></param>
         public void AddUrgent(PDA_State state)
         {
+            //Pause current instruction
+            _instructionList[0].Pause();
+
             _instructionList.Insert(0, state);
             _instructionList[0].OnFinished += NextState;
         }

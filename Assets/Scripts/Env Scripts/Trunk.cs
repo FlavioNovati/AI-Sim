@@ -2,8 +2,14 @@ using UnityEngine;
 
 public class Trunk : MonoBehaviour, IPickable
 {
-    public Transform Transform => transform;
+    [SerializeField] private float _stoppingDistance = 0.25f;
 
+    //ITarget
+    public Transform Transform => transform;
+    public float StoppingDistance => _stoppingDistance;
+    
+    //IPickable
+    public string PickableName => "trunk";
     public void PickUp()
     {
         gameObject.SetActive(false);

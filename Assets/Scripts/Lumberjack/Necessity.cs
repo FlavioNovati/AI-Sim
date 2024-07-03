@@ -37,7 +37,7 @@ public class Necessity
         Value += amount;
         //Allow crit event
         if(Value > CriticalLevelThreshold)
-            _allowCritEvent = false;
+            _allowCritEvent = true;
         //Clamp value
         Value = Mathf.Clamp(Value, 0f, MaxValue);
     }

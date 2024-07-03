@@ -45,9 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d6dbb0ed0008ab44894046540dac50c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _healtPoints: 5
+  _stoppingDistance: 1.1
   _objectToDrop: {fileID: 3280020090721311674, guid: 4f54481c6f4fd974695d27b3bf774aad,
     type: 3}
-  _healtPoints: 5
 --- !u!1 &8264921047860386707
 GameObject:
   m_ObjectHideFlags: 0

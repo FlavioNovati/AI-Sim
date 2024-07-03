@@ -2,22 +2,23 @@ using UnityEngine;
 
 public class Water : MonoBehaviour, IEatable
 {
-    [SerializeField] private float _feedAmount;
+    [SerializeField] private float _feedAmount = 15f;
+    [SerializeField] private float _stoppingDistance = 0.25f;
 
+    //ITarget
     public Transform Transform => transform;
+    public float StoppingDistance => _stoppingDistance;
 
-    public float FeedAmount { get; set; }
 
-    private void Awake()
-    {
-        FeedAmount = _feedAmount;
-    }
-
+    //IEatable implementation
+    public float FeedAmount => _feedAmount;
     public void FeedMe(IEntity entityToFeed)
     {
         entityToFeed.Thirst.Increase(FeedAmount);
     }
 
+    //IPicable implementation
+    public string PickableName => "water";
     public void PickUp()
     {
         gameObject.SetActive(false);

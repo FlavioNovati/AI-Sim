@@ -8,8 +8,8 @@ public class LumberjackController : MonoBehaviour, IEntity
     public delegate void Setupped();
     public event Setupped OnSetup;
 
+    //Lumberjack parameters
     [SerializeField] private LumberjackData _settings = null;
-
     [HideInInspector] public Forest ForestToCut = null;
     [HideInInspector] public IStash WoodStash = null;
     [HideInInspector] public IHome Home = null;
@@ -18,33 +18,40 @@ public class LumberjackController : MonoBehaviour, IEntity
 
     private IPickable _pickedObject = null;
     private ITarget _target = null;
-    
+
     public PDA_Machine StateMachine { get; private set; } = new PDA_Machine();
     private NavMeshAgent _agent = null;
 
+    //IEntity variables
     public Necessity Thirst { get; set; }
     public Necessity Hunger { get; set; }
-    
+    public NavMeshAgent Agent { get => _agent; }
+    public LumberjackData Data => _settings;
+
     private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
 
-        Thirst = new Necessity();
-        Thirst.MaxValue = _settings.ThirstNeeds.MaxValue;
-        Thirst.StartingValue = _settings.ThirstNeeds.StartingValue;
-        Thirst.CriticalLevelThreshold = _settings.ThirstNeeds.CriticalLevelThreshold;
-        
+        //Create new Hunger Necessity
         Hunger = new Necessity();
         Hunger.MaxValue = _settings.HungerNeeds.MaxValue;
         Hunger.StartingValue = _settings.HungerNeeds.StartingValue;
         Hunger.CriticalLevelThreshold = _settings.HungerNeeds.CriticalLevelThreshold;
 
+        //Create new Thirst Necessity
+        Thirst = new Necessity();
+        Thirst.MaxValue = _settings.ThirstNeeds.MaxValue;
+        Thirst.StartingValue = _settings.ThirstNeeds.StartingValue;
+        Thirst.CriticalLevelThreshold = _settings.ThirstNeeds.CriticalLevelThreshold;
+
+        //Connect critical events
         Hunger.OnCritical += HungerCrit;
         Thirst.OnCritical += ThirstCrit;
     }
 
     private void Start()
     {
+        //Get a tree to cut
         PDA_State_GetTreeTarget getTreeTarget = new PDA_State_GetTreeTarget("Get tree target", ForestToCut);
         getTreeTarget.OnTreeAcquired += HarvestTree;
         StateMachine.Add(getTreeTarget);
@@ -57,19 +64,19 @@ public class LumberjackController : MonoBehaviour, IEntity
         StateMachine.Process();
     }
 
+    //Move towards a tree and cut it
     private void HarvestTree(Tree tree)
     {
+        if (tree == null)
+            return;
         _target = tree;
 
-        PDA_State_MoveToTarget moveTowardsTree = new PDA_State_MoveToTarget("Move to tree", _agent, _target, _settings.TreeStoppingDistance, this, _settings.WalkingConsumption);
-        PDA_State_AttackTarget cutTree = new PDA_State_AttackTarget("Cut tree", _target, _settings.Damage, _settings.AttackDelay, this, _settings.AttackingConsumption);
+        //Create new state
+        PDA_State_AttackTarget cutTree = new PDA_State_AttackTarget("Cut tree", this, _target);
         //Once the tree is cutted pick the drop
         cutTree.OnTargetDropped += PickUp;
-
-        //Setup routine
-        List<PDA_State> harvestTreeRoutine = new List<PDA_State>{ moveTowardsTree, cutTree };
         //Apply routine to state machine
-        StateMachine.Add(harvestTreeRoutine);
+        StateMachine.Add(cutTree);
     }
 
     /// <summary>
@@ -78,18 +85,15 @@ public class LumberjackController : MonoBehaviour, IEntity
     /// <param name="objectToPickUp"></param>
     private void PickUp(IPickable objectToPickUp, bool urgent)
     {
-        PDA_State_MoveToTarget moveTowardsDrop = new PDA_State_MoveToTarget("Move towards pickable", _agent, objectToPickUp, _settings.DropStoppingDistance, this, _settings.WalkingConsumption);
-        PDA_State_PickUpObject pickUpObject = new PDA_State_PickUpObject("Pick up pickable", ref objectToPickUp);
+        PDA_State_PickUpObject pickUpObject = new PDA_State_PickUpObject("Pick up " +objectToPickUp.PickableName, objectToPickUp, this);
         //When object is picked up execute PickUpObject
         pickUpObject.OnPickUp += AnalizePickable;
-
-        //Setup routine
-        List<PDA_State> pickUpDropRoutine = new List<PDA_State> { moveTowardsDrop, pickUpObject };
+        
         //Apply routine to state machine
         if(urgent)
-            StateMachine.AddUrgent(pickUpDropRoutine);
+            StateMachine.AddUrgent(pickUpObject);
         else
-            StateMachine.Add(pickUpDropRoutine);
+            StateMachine.Add(pickUpObject);
     }
 
     /// <summary>
@@ -115,7 +119,7 @@ public class LumberjackController : MonoBehaviour, IEntity
     /// <param name="stash"></param>
     private void StoreTrunk(IPickable pickable, IStash stash)
     {
-        PDA_State_MoveToTarget moveTowardsStash = new PDA_State_MoveToTarget("Move to wood stash", _agent, stash, _settings.StashStoppingDistance, this, _settings.WalkingConsumption);
+        PDA_State_MoveToTarget moveTowardsStash = new PDA_State_MoveToTarget("Move to wood stash", this, stash);
         PDA_State_StoreToStash storeToStash = new PDA_State_StoreToStash("Store trunk to stash", pickable, stash);
         storeToStash.OnFinished += RecycleWorkRoutine;
 
@@ -136,7 +140,7 @@ public class LumberjackController : MonoBehaviour, IEntity
 
     private void Rest()
     {
-        PDA_State_MoveToTarget moveTowardsHome = new PDA_State_MoveToTarget("Move to home", _agent, Home, _settings.HouseStoppingDistance, this, _settings.WalkingConsumption);
+        PDA_State_MoveToTarget moveTowardsHome = new PDA_State_MoveToTarget("Move to home", this, Home);
         PDA_State_Idle waitUntillDay = new PDA_State_Idle("Wait day time", ref DayManager.OnDayStarted);
 
         //Setup routine

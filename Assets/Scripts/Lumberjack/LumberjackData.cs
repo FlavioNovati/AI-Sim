@@ -14,7 +14,7 @@ public class LumberjackData : ScriptableObject
     [SerializeField] public float AttackDelay = 1.5f;
     [Header("Stopping Distances")]
     [SerializeField] public float TreeStoppingDistance = 1f;
-    [SerializeField] public float DropStoppingDistance = 0.5f;
+    [SerializeField] public float PickupStoppingDistance = 0.5f;
     [SerializeField] public float StashStoppingDistance = 3f;
     [SerializeField] public float HouseStoppingDistance = 1.5f;
 }
