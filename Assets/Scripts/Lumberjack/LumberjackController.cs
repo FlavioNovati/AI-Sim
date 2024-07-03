@@ -106,10 +106,13 @@ public class LumberjackController : MonoBehaviour, IEntity
 
         //if is a trunk -> save it in the stash
         if (_pickedObject.Transform.gameObject.TryGetComponent<Trunk>(out _))
+        {
+            Debug.Log("This is a trunk: " + pickable.PickableName);
             StoreTrunk(pickable, WoodStash);
+        }
         //if eatable -> eat it
-        if (_pickedObject.Transform.gameObject.TryGetComponent<IEatable>(out IEatable eatable))
-            eatable.FeedMe(this);
+        if (_pickedObject.Transform.gameObject.TryGetComponent<IFeedable>(out IFeedable eatable))
+            eatable.FeedEntity(this);
     }
 
     /// <summary>
@@ -151,13 +154,13 @@ public class LumberjackController : MonoBehaviour, IEntity
 
     private void HungerCrit()
     {
-        IEatable foodTarget = FoodSource.GetFood();
+        IFeedable foodTarget = FoodSource.GetFood();
         PickUp(foodTarget, true);
     }
 
     private void ThirstCrit()
     {
-        IEatable waterTarget = WaterSource.GetWater();
+        IFeedable waterTarget = WaterSource.GetWater();
         PickUp(waterTarget, true);
     }
 

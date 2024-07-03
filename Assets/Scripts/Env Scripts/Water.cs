@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Water : MonoBehaviour, IEatable
+public class Water : MonoBehaviour, IFeedable
 {
     [SerializeField] private float _feedAmount = 15f;
     [SerializeField] private float _stoppingDistance = 0.25f;
@@ -12,7 +12,7 @@ public class Water : MonoBehaviour, IEatable
 
     //IEatable implementation
     public float FeedAmount => _feedAmount;
-    public void FeedMe(IEntity entityToFeed)
+    public void FeedEntity(IEntity entityToFeed)
     {
         entityToFeed.Thirst.Increase(FeedAmount);
     }

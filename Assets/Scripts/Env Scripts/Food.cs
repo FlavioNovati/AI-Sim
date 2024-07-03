@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Food : MonoBehaviour, IEatable
+public class Food : MonoBehaviour, IFeedable
 { 
     [SerializeField] private float _feedAmount;
     [SerializeField] private float _stoppingDistance = 0.2f;
@@ -11,7 +11,7 @@ public class Food : MonoBehaviour, IEatable
 
     //IEatable
     public float FeedAmount => _feedAmount;
-    public void FeedMe(IEntity entityToFeed)
+    public void FeedEntity(IEntity entityToFeed)
     {
         entityToFeed.Hunger.Increase(FeedAmount);
     }
