@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class UI_Manager : MonoBehaviour
 {
-    [SerializeField] private LumberjackController _lumberjack;
     [SerializeField] private TMP_Text _statesTextField;
     [Header("Day UI")]
     [SerializeField] private Image _clockImage;
@@ -19,11 +19,13 @@ public class UI_Manager : MonoBehaviour
     [SerializeField] private Color _thirstCriticalColor;
     
     private IEntity _entity => _lumberjack;
+    private LumberjackController _lumberjack;
     private NecessityVisualizer _thirstVisualizer;
     private NecessityVisualizer _hungerVisualizer;
     
     private void Awake()
     {
+        _lumberjack = FindObjectOfType<LumberjackController>();
         _lumberjack.OnSetup += UpdateUIStates;
         
         _hungerVisualizer = new NecessityVisualizer(_entity, _hungerBar, _hungerCriticalColor, true);

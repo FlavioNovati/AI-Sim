@@ -1,5 +1,6 @@
 using System.Collections.Generic;
-using System.Linq;
+using UnityEngine;
+using static UnityEditor.VersionControl.Asset;
 
 namespace PushdownAutomata
 {
@@ -40,8 +41,7 @@ namespace PushdownAutomata
             //add new states
             _instructionList.InsertRange(0, states);
 
-            for (int i = 0; i < states.Count; i++)
-                states[i].OnFinished += NextState;
+            states[0].OnFinished += NextState;
         }
 
         /// <summary>

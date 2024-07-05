@@ -1,7 +1,5 @@
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Rendering.Universal;
-using static UnityEngine.GraphicsBuffer;
 
 namespace PushdownAutomata
 {
@@ -22,6 +20,12 @@ namespace PushdownAutomata
         private float _stoppingDistance;
         private PDA_State_MoveToTarget _MoveSubState;
 
+        /// <summary>
+        /// Reach and pick up a pickable
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="pickable"></param>
+        /// <param name="entity"></param>
         public PDA_State_PickUpObject(string name, IPickable pickable, IEntity entity) : base(name)
         {
             _itemToPickUp = pickable;

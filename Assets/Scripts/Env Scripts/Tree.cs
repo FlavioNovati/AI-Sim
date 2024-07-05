@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Tree : MonoBehaviour, ITree, IDamageable, IDroppable
+public class Tree : MonoBehaviour, ITree
 {
     [SerializeField] private float _healtPoints = 5f;
     [SerializeField] private float _stoppingDistance = 0.25f;

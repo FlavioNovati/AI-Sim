@@ -1,4 +1,4 @@
-public interface ITree: ITarget
+public interface ITree: IDamageable, IDroppable
 {
 
 }

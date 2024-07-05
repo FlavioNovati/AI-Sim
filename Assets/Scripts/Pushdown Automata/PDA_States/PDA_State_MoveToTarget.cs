@@ -61,6 +61,12 @@ namespace PushdownAutomata
             _entity.Thirst.Decrease(_thirstConsumption * Time.deltaTime);
         }
 
+        protected override void ExecutePause()
+        {
+            base.ExecutePause();
+            Enter();
+        }
+
         protected override void Exit()
         { 
             base.Exit();

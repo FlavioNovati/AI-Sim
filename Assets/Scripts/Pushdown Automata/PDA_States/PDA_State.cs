@@ -1,5 +1,4 @@
 using System;
-using UnityEditor;
 
 namespace PushdownAutomata
 {
@@ -17,7 +16,6 @@ namespace PushdownAutomata
 
         //State Parameters
         protected StateStage _stage = StateStage.ENTER;
-        //TODO: Clean
         protected string _name;
         
         public PDA_State(string name) 
@@ -47,8 +45,14 @@ namespace PushdownAutomata
             OnFinished -= OnFinished;
         }
         
+        protected virtual void ExecutePause()
+        {
+
+        }
+
         public void Pause()
         {
+            ExecutePause();
             _stage = StateStage.ENTER;
         }
 

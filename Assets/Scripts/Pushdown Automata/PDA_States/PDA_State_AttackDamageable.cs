@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 namespace PushdownAutomata
 {
-    public class PDA_State_AttackTarget : PDA_State
+    public class PDA_State_AttackDamageable : PDA_State
     {
         public delegate void TargetDropped(IPickable pickableDrop, bool urgent);
         public event TargetDropped OnTargetDropped;
@@ -16,7 +16,6 @@ namespace PushdownAutomata
         private float _attackDelay;
         private float _lastAttackTime;
         private float _damage;
-        private ITarget _target;
         private IDamageable _damageable;
 
         //Movement Variables
@@ -33,18 +32,22 @@ namespace PushdownAutomata
         /// Reach and attack an ITarget while consuming IEntity hunger and thirst
         /// </summary>
         /// <param name="name"></param>
-        /// <param name="target"></param>
-        /// <param name="damage"></param>
-        /// <param name="attackDelay"></param>
+        /// <param name="damageable"></param>
         /// <param name="entity"></param>
-        /// <param name="consumptionPerTick"></param>
-        public PDA_State_AttackTarget(string name, IEntity entity, ITarget target) : base(name)
+        public PDA_State_AttackDamageable(string name, IEntity entity, IDamageable damageable) : base(name)
         {
+            if (damageable == null)
+            {
+                //No damageable -> quit state
+                base._stage = StateStage.EXIT;
+                return;
+            }
+
             //Setup debug name
             _stateName = name;
 
             //Setup Attack Variables
-            _target = target;
+            _damageable = damageable;
             _agent = entity.Agent;
             _entity = entity;
             _damage = entity.Data.Damage;
@@ -55,37 +58,27 @@ namespace PushdownAutomata
             _thirstConsumption = entity.Data.AttackingConsumption.ThirstConsumption;
 
             //Setup moving variables
-            _stoppingDistance = target.StoppingDistance;
+            _stoppingDistance = damageable.StoppingDistance;
 
             //Setup substate
-            _MoveSubState = new PDA_State_MoveToTarget(null, _entity, _target);
+            _MoveSubState = new PDA_State_MoveToTarget(null, _entity, damageable);
+
+            //Connect events
+            _damageable.OnDeath += Exit;
+            //If is IDroppable connect to drop event
+            if (_damageable.Transform.TryGetComponent<IDroppable>(out IDroppable drop))
+                drop.OnDrop += Drop;
         }
 
         protected override void Enter()
         {
             base.Enter();
-
-            //Try get IDamageable component
-            if(_target.Transform.TryGetComponent<IDamageable>(out IDamageable damageable))
-            {
-                _damageable = damageable;
-                _damageable.OnDeath += Exit;
-            }
-            else
-            {
-                //Not A damageable -> quit state
-                base._stage = StateStage.EXIT;
-                return;
-            }
-            //If is IDroppable connect to drop event
-            if(_target.Transform.TryGetComponent<IDroppable>(out IDroppable drop))
-                drop.OnDrop += Drop;
         }
 
         protected override void Update()
         {
             //Not in position -> Move
-            if((_agent.transform.position - _target.Transform.position).magnitude > _stoppingDistance)
+            if((_agent.transform.position - _damageable.Transform.position).magnitude > _stoppingDistance)
             {
                 _MoveSubState.Process();
                 _stateProcessName = "move";
@@ -102,9 +95,12 @@ namespace PushdownAutomata
         protected override void Exit()
         { 
             base.Exit();
-            //Disconnect event
+
+            //Disconnect events
+            _damageable.OnDeath -= Exit;
             OnTargetDropped -= OnTargetDropped;
         }
+
 
         private void DamageTarget()
         {
@@ -124,6 +120,7 @@ namespace PushdownAutomata
         {
             //Invoke drop event
             OnTargetDropped?.Invoke(pickableDrop, false);
+            OnTargetDropped -= OnTargetDropped;
         }
 
         private void UpdateBaseName()

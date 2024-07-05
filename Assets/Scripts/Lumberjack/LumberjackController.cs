@@ -16,9 +16,6 @@ public class LumberjackController : MonoBehaviour, IEntity
     [HideInInspector] public FoodSpawner FoodSource = null;
     [HideInInspector] public WaterSpawner WaterSource = null;
 
-    private IPickable _pickedObject = null;
-    private ITarget _target = null;
-
     public PDA_Machine StateMachine { get; private set; } = new PDA_Machine();
     private NavMeshAgent _agent = null;
 
@@ -51,10 +48,7 @@ public class LumberjackController : MonoBehaviour, IEntity
 
     private void Start()
     {
-        //Get a tree to cut
-        PDA_State_GetTreeTarget getTreeTarget = new PDA_State_GetTreeTarget("Get tree target", ForestToCut);
-        getTreeTarget.OnTreeAcquired += HarvestTree;
-        StateMachine.Add(getTreeTarget);
+        RecycleWorkRoutine();
         //Set up Finished event
         OnSetup?.Invoke();
     }
@@ -65,14 +59,13 @@ public class LumberjackController : MonoBehaviour, IEntity
     }
 
     //Move towards a tree and cut it
-    private void HarvestTree(Tree tree)
+    private void HarvestTree(ITree tree)
     {
         if (tree == null)
             return;
-        _target = tree;
 
         //Create new state
-        PDA_State_AttackTarget cutTree = new PDA_State_AttackTarget("Cut tree", this, _target);
+        PDA_State_AttackDamageable cutTree = new PDA_State_AttackDamageable("Cut tree", this, tree);
         //Once the tree is cutted pick the drop
         cutTree.OnTargetDropped += PickUp;
         //Apply routine to state machine
@@ -88,31 +81,30 @@ public class LumberjackController : MonoBehaviour, IEntity
         PDA_State_PickUpObject pickUpObject = new PDA_State_PickUpObject("Pick up " +objectToPickUp.PickableName, objectToPickUp, this);
         //When object is picked up execute PickUpObject
         pickUpObject.OnPickUp += AnalizePickable;
-        
+
         //Apply routine to state machine
-        if(urgent)
+        if (urgent)
             StateMachine.AddUrgent(pickUpObject);
         else
             StateMachine.Add(pickUpObject);
     }
 
     /// <summary>
-    /// Store IPickable inside a local variable, if Trunk stash it, if consumable cosume it
+    /// if Trunk stash it, if Feedable feed lumberjack
     /// </summary>
     /// <param name="pickable"></param>
     private void AnalizePickable(IPickable pickable)
     {
-        _pickedObject = pickable;
-
         //if is a trunk -> save it in the stash
-        if (_pickedObject.Transform.gameObject.TryGetComponent<Trunk>(out _))
+        if (pickable.Transform.gameObject.TryGetComponent<Trunk>(out _))
         {
-            Debug.Log("This is a trunk: " + pickable.PickableName);
-            StoreTrunk(pickable, WoodStash);
+            StorePickable(pickable, WoodStash);
+            return;
         }
-        //if eatable -> eat it
-        if (_pickedObject.Transform.gameObject.TryGetComponent<IFeedable>(out IFeedable eatable))
-            eatable.FeedEntity(this);
+       
+        //if feedable -> feed lumberjack
+        if (pickable.Transform.gameObject.TryGetComponent<IFeedable>(out IFeedable feedable))
+            feedable.FeedEntity(this);
     }
 
     /// <summary>
@@ -120,7 +112,7 @@ public class LumberjackController : MonoBehaviour, IEntity
     /// </summary>
     /// <param name="pickable"></param>
     /// <param name="stash"></param>
-    private void StoreTrunk(IPickable pickable, IStash stash)
+    private void StorePickable(IPickable pickable, IStash stash)
     {
         PDA_State_MoveToTarget moveTowardsStash = new PDA_State_MoveToTarget("Move to wood stash", this, stash);
         PDA_State_StoreToStash storeToStash = new PDA_State_StoreToStash("Store trunk to stash", pickable, stash);
@@ -134,11 +126,8 @@ public class LumberjackController : MonoBehaviour, IEntity
 
     private void RecycleWorkRoutine()
     {
-        PDA_State_GetTreeTarget getTreeTarget = new PDA_State_GetTreeTarget("Get tree target", ForestToCut);
-        //When recive tree target -> start harvest tree routine
-        getTreeTarget.OnTreeAcquired += HarvestTree;
-        //Apply routine to state machine
-        StateMachine.Add(getTreeTarget);
+        ITree tree = ForestToCut.GetTree();
+        HarvestTree(tree);
     }
 
     private void Rest()

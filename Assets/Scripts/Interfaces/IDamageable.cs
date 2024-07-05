@@ -1,4 +1,4 @@
-public interface IDamageable
+public interface IDamageable: ITarget
 {
     public delegate void Death();
     public event Death OnDeath;
