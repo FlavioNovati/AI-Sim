@@ -35,7 +35,6 @@ public class Tree : MonoBehaviour, ITree
         this.gameObject.SetActive(false);
     }
 
-    //TODO: Replace With Pooling
     private void SpawnTrunk()
     {
         //Get random positon near tree
@@ -43,10 +42,7 @@ public class Tree : MonoBehaviour, ITree
         Vector2 randomPos = UnityEngine.Random.insideUnitCircle * 1f;
         pos.x += randomPos.x;
         pos.z += randomPos.y;
-        //Instanciate trunk
-        Trunk temp = Instantiate(_objectToDrop, pos, Quaternion.identity);
-        temp.gameObject.SetActive(true);
         //Invoke drop event
-        OnDrop?.Invoke(temp);
+        OnDrop?.Invoke(TrunkManager.Instance.GetTrunk(pos));
     }
 }

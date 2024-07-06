@@ -101,7 +101,6 @@ namespace PushdownAutomata
             OnTargetDropped -= OnTargetDropped;
         }
 
-
         private void DamageTarget()
         {
             //Apply damage to IDamageable

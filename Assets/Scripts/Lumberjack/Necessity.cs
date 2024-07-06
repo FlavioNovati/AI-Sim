@@ -6,6 +6,9 @@ public class Necessity
     public delegate void CritLevel();
     public event CritLevel OnCritical;
 
+    public delegate void Empty();
+    public event Empty OnEmpty;
+
     [SerializeField] public float MaxValue = 20f;
     [SerializeField] public float StartingValue = 15f;
     [SerializeField] public float CriticalLevelThreshold = 3f;
@@ -30,6 +33,9 @@ public class Necessity
             OnCritical?.Invoke();
             _allowCritEvent = false;
         }
+
+        if(Value <= 0)
+            OnEmpty?.Invoke();
     }
 
     public void Increase(float amount)
