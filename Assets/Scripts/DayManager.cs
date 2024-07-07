@@ -13,7 +13,7 @@ public class DayManager : MonoBehaviour
 
     private float _time = 0f;
     public float DayProgress { get; private set; } = 0f;
-    private bool _allowDayFinishedCall = false;
+    private bool _allowDayFinishedCall = true;
 
     private void Awake()
     {
@@ -29,10 +29,10 @@ public class DayManager : MonoBehaviour
         _time += Time.deltaTime;
 
         //Day Ended
-        if(_time > _dayDuration && !_allowDayFinishedCall)
+        if(_time > _dayDuration && _allowDayFinishedCall)
         {
             OnDayFinished?.Invoke();
-            _allowDayFinishedCall = true;
+            _allowDayFinishedCall = false;
         }
 
         //Night Ended
@@ -40,7 +40,7 @@ public class DayManager : MonoBehaviour
         {
             _time = 0f;
             OnDayStarted?.Invoke();
-            _allowDayFinishedCall = false;
+            _allowDayFinishedCall = true;
         }
 
         //Calculate day progress

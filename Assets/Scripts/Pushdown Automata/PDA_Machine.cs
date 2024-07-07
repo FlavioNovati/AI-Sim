@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using UnityEngine;
-using static UnityEditor.VersionControl.Asset;
 
 namespace PushdownAutomata
 {
