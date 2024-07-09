@@ -9,7 +9,6 @@ public class Water : MonoBehaviour, IFeedable
     public Transform Transform => transform;
     public float StoppingDistance => _stoppingDistance;
 
-
     //IEatable implementation
     public float FeedAmount => _feedAmount;
     public void FeedEntity(IEntity entityToFeed)
