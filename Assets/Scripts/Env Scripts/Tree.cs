@@ -9,8 +9,10 @@ public class Tree : MonoBehaviour, ITree
     //IDamageable
     public float HP { get; set; }
     public event IDamageable.Death OnDeath;
+
     //IDroppable
     public event IDroppable.Drop OnDrop;
+
     //ITarget
     public Transform Transform => transform;
     public float StoppingDistance => _stoppingDistance;

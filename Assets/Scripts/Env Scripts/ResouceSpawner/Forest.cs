@@ -24,10 +24,6 @@ public class Forest : ResourceSpawner
     public Tree GetTree()
     {
         int treeIndex = UnityEngine.Random.Range(0, base._allowedObjectList.Count - 1);
-
-        if (treeIndex < 0)
-            return null;
-
         Tree tree = _allowedObjectList[treeIndex].GetComponent<Tree>();
         _allowedObjectList.RemoveAt(treeIndex);
         return tree; 

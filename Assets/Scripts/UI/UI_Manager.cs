@@ -41,13 +41,17 @@ public class UI_Manager : MonoBehaviour
         _lumberjack.Thirst.OnEmpty += GameOver;
     }
 
+    //Done in update since no performance issue are know, could be done with events
     private void Update()
     {
+        //Update necessities visualizer
         _hungerVisualizer.Update();
         _thirstVisualizer.Update();
 
+        //Update State machine states
         UpdateUIStates();
 
+        //Rotate clock dial
         float clockRotation = Mathf.Lerp(_startingRotation, _finalRotation, DayManager.Instance.DayProgress);
         _clockImage.rectTransform.eulerAngles = new Vector3(0f, 0f, clockRotation);
     }

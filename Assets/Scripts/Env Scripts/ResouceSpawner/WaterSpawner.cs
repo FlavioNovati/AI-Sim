@@ -23,9 +23,9 @@ public class WaterSpawner : ResourceSpawner
     /// <returns></returns>
     public Water GetWater()
     {
-        int index = UnityEngine.Random.Range(0, base._allowedObjectList.Count - 1);
-        Water food = _allowedObjectList[index].GetComponent<Water>();
-        _allowedObjectList.RemoveAt(index);
-        return food;
+        int waterIndex = UnityEngine.Random.Range(0, base._allowedObjectList.Count - 1);
+        Water water = _allowedObjectList[waterIndex].GetComponent<Water>();
+        _allowedObjectList.RemoveAt(waterIndex);
+        return water;
     }
 }

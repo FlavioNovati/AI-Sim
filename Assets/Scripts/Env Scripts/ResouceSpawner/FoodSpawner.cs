@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FoodSpawner : ResourceSpawner
@@ -25,9 +23,9 @@ public class FoodSpawner : ResourceSpawner
     /// <returns></returns>
     public Food GetFood()
     {
-        int index = UnityEngine.Random.Range(0, base._allowedObjectList.Count - 1);
-        Food food = _allowedObjectList[index].GetComponent<Food>();
-        _allowedObjectList.RemoveAt(index);
+        int foodIndex = UnityEngine.Random.Range(0, base._allowedObjectList.Count - 1);
+        Food food = _allowedObjectList[foodIndex].GetComponent<Food>();
+        _allowedObjectList.RemoveAt(foodIndex);
         return food;
     }
 }

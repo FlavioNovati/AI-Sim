@@ -11,13 +11,13 @@ public class NecessityVisualizer
 
     private bool _showHunger;
 
-    public NecessityVisualizer(IEntity necessities, Image image, Color criticalColor, bool hunger)
+    public NecessityVisualizer(IEntity necessities, Image image, Color criticalColor, bool showHunger)
     {
         _entity = necessities;
         _image = image;
         _standardColor = image.color;
         _criticalColor = criticalColor;
-        _showHunger = hunger;
+        _showHunger = showHunger;
     }
 
     public void Update()
